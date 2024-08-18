@@ -1,1 +1,1 @@
-# passiflora
+Assorted Home Assistant Customizations
