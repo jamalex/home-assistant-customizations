@@ -12,19 +12,19 @@ blueprint:
       selector:
         device:
           model: PJ2-3BRL-GXX-X01 (Pico3ButtonRaiseLower)
-#    enabled_2:
-#      name: 2nd Pico - Enable
-#      description: "Toggle on to activate a second Pico remote."
-#      selector:
-#        boolean:
-#      default: false
-#    pico_2:
-#      name: 2nd Pico - Device
-#      description: "Pico remote to associate with light entity."
-#      selector:
-#        device:
-#          model: PJ2-3BRL-GXX-X01 (Pico3ButtonRaiseLower)
-#      default:
+    enabled_2:
+      name: 2nd Pico - Enable
+      description: "Toggle on to activate a second Pico remote."
+      selector:
+        boolean:
+      default: false
+    pico_2:
+      name: 2nd Pico - Device
+      description: "Pico remote to associate with light entity."
+      selector:
+        device:
+          model: PJ2-3BRL-GXX-X01 (Pico3ButtonRaiseLower)
+      default:
 #    enabled_3:
 #      name: 3rd Pico - Enable
 #      description: "Toggle on to activate a third Pico remote."
@@ -75,7 +75,7 @@ blueprint:
           min: 0
           max: 15
           unit_of_measurement: seconds
-      default: 2
+      default: 1
     step:
       name: Brightness Step Percentage
       description: "The percentage of brightness to which the light is changed when the RAISE/LOWER buttons are pressed and held."
@@ -84,7 +84,7 @@ blueprint:
           min: 1
           max: 33
           unit_of_measurement: percentage
-      default: 10
+      default: 3
     speed:
       name: Brightness Transition Speed
       description: "The rate of speed in milliseconds at which the brightness of the light entity will be changed."
@@ -93,7 +93,7 @@ blueprint:
           min: 100
           max: 2000
           unit_of_measurement: milliseconds
-      default: 500
+      default: 100
     middle_button_action:
       name: Middle (Favorite) Button Override
       description: "Action(s) to execute when MIDDLE button is pressed. If left blank, action will default to setting the light entity to a brightness 80% and color temperature 2700."
@@ -145,55 +145,55 @@ trigger:
     subtype: 'off'
     id: off_pressed
 
-#  - enabled: !input enabled_2
-#    platform: device
-#    device_id: !input pico_2
-#    domain: lutron_caseta
-#    type: press
-#    subtype: 'on'
-#    id: on_pressed
-#  - enabled: !input enabled_2
-#    platform: device
-#    device_id: !input pico_2
-#    domain: lutron_caseta
-#    type: press
-#    subtype: 'raise'
-#    id: up_pressed
-#  - enabled: !input enabled_2
-#    platform: device
-#    device_id: !input pico_2
-#    domain: lutron_caseta
-#    type: release
-#    subtype: 'raise'
-#    id: up_released
-#  - enabled: !input enabled_2
-#    platform: device
-#    device_id: !input pico_2
-#    domain: lutron_caseta
-#    type: press
-#    subtype: 'stop'
-#    id: stop_pressed
-#  - enabled: !input enabled_2
-#    platform: device
-#    device_id: !input pico_2
-#    domain: lutron_caseta
-#    type: press
-#    subtype: 'lower'
-#    id: down_pressed
-#  - enabled: !input enabled_2
-#    platform: device
-#    device_id: !input pico_2
-#    domain: lutron_caseta
-#    type: release
-#    subtype: 'lower'
-#    id: down_released
-#  - enabled: !input enabled_2
-#    platform: device
-#    device_id: !input pico_2
-#    domain: lutron_caseta
-#    type: press
-#    subtype: 'off'
-#    id: off_pressed
+  - enabled: !input enabled_2
+    platform: device
+    device_id: !input pico_2
+    domain: lutron_caseta
+    type: press
+    subtype: 'on'
+    id: on_pressed
+  - enabled: !input enabled_2
+    platform: device
+    device_id: !input pico_2
+    domain: lutron_caseta
+    type: press
+    subtype: 'raise'
+    id: up_pressed
+  - enabled: !input enabled_2
+    platform: device
+    device_id: !input pico_2
+    domain: lutron_caseta
+    type: release
+    subtype: 'raise'
+    id: up_released
+  - enabled: !input enabled_2
+    platform: device
+    device_id: !input pico_2
+    domain: lutron_caseta
+    type: press
+    subtype: 'stop'
+    id: stop_pressed
+  - enabled: !input enabled_2
+    platform: device
+    device_id: !input pico_2
+    domain: lutron_caseta
+    type: press
+    subtype: 'lower'
+    id: down_pressed
+  - enabled: !input enabled_2
+    platform: device
+    device_id: !input pico_2
+    domain: lutron_caseta
+    type: release
+    subtype: 'lower'
+    id: down_released
+  - enabled: !input enabled_2
+    platform: device
+    device_id: !input pico_2
+    domain: lutron_caseta
+    type: press
+    subtype: 'off'
+    id: off_pressed
 #
 #  - enabled: !input enabled_3
 #    platform: device
