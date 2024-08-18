@@ -1,0 +1,392 @@
+blueprint:
+  name: Lutron Pico 5 Button - Light Entity Control
+  description: "This blueprint allows for the association of a Lutron Pico 5 Button (model PJ2-3BRL-GXX-X01) remote with a light entity. It is designed to simulate the operation of a standard Lutron Caseta wall dimmer including the press and hold functionality for the raise/lower buttons. It allows for control over the brightness step percentage and transition speed and the assignment of any action to the middle button."
+  source_url: https://gist.github.com/smartqasa/9814a750a0d0cfb196fa1fa7ae3630bb
+
+  domain: automation
+
+  input:
+    pico_1:
+      name: Pico Device
+      description: "Pico remote to associate with light entity."
+      selector:
+        device:
+          model: PJ2-3BRL-GXX-X01 (Pico3ButtonRaiseLower)
+#    enabled_2:
+#      name: 2nd Pico - Enable
+#      description: "Toggle on to activate a second Pico remote."
+#      selector:
+#        boolean:
+#      default: false
+#    pico_2:
+#      name: 2nd Pico - Device
+#      description: "Pico remote to associate with light entity."
+#      selector:
+#        device:
+#          model: PJ2-3BRL-GXX-X01 (Pico3ButtonRaiseLower)
+#      default:
+#    enabled_3:
+#      name: 3rd Pico - Enable
+#      description: "Toggle on to activate a third Pico remote."
+#      selector:
+#        boolean:
+#      default: false
+#    pico_3:
+#      name: 3rd Pico - Device
+#      description: "Pico remote to associate with light entity."
+#      selector:
+#        device:
+#          model: PJ2-3BRL-GXX-X01 (Pico3ButtonRaiseLower)
+#      default:
+#    enabled_4:
+#      name: 4th Pico - Enable
+#      description: "Toggle on to activate a fourth Pico remote."
+#      selector:
+#        boolean:
+#      default: false
+#    pico_4:
+#      name: 4th Pico - Device
+#      description: "Pico remote to associate with light entity."
+#      selector:
+#        device:
+#          model: PJ2-3BRL-GXX-X01 (Pico3ButtonRaiseLower)
+#      default:
+    entity:
+      name: Light Entity(ies)
+      description: "Light entity to control."
+      selector:
+        entity:
+          domain: light
+          multiple: true
+    transition_on:
+      name: On Transition
+      description: "The duration in seconds for the light entity to transiton on."
+      selector:
+        number:
+          min: 0
+          max: 15
+          unit_of_measurement: seconds
+      default: 1
+    transition_off:
+      name: Off Transition
+      description: "The duration in seconds for the light entity to transiton off."
+      selector:
+        number:
+          min: 0
+          max: 15
+          unit_of_measurement: seconds
+      default: 2
+    step:
+      name: Brightness Step Percentage
+      description: "The percentage of brightness to which the light is changed when the RAISE/LOWER buttons are pressed and held."
+      selector:
+        number:
+          min: 1
+          max: 33
+          unit_of_measurement: percentage
+      default: 10
+    speed:
+      name: Brightness Transition Speed
+      description: "The rate of speed in milliseconds at which the brightness of the light entity will be changed."
+      selector:
+        number:
+          min: 100
+          max: 2000
+          unit_of_measurement: milliseconds
+      default: 500
+    middle_button_action:
+      name: Middle (Favorite) Button Override
+      description: "Action(s) to execute when MIDDLE button is pressed. If left blank, action will default to setting the light entity to a brightness 80% and color temperature 2700."
+      selector:
+        action: {}
+      default:
+
+trigger:
+  - platform: device
+    device_id: !input pico_1
+    domain: lutron_caseta
+    type: press
+    subtype: 'on'
+    id: on_pressed
+  - platform: device
+    device_id: !input pico_1
+    domain: lutron_caseta
+    type: press
+    subtype: 'raise'
+    id: up_pressed
+  - platform: device
+    device_id: !input pico_1
+    domain: lutron_caseta
+    type: release
+    subtype: 'raise'
+    id: up_released
+  - platform: device
+    device_id: !input pico_1
+    domain: lutron_caseta
+    type: press
+    subtype: 'stop'
+    id: stop_pressed
+  - platform: device
+    device_id: !input pico_1
+    domain: lutron_caseta
+    type: press
+    subtype: 'lower'
+    id: down_pressed
+  - platform: device
+    device_id: !input pico_1
+    domain: lutron_caseta
+    type: release
+    subtype: 'lower'
+    id: down_released
+  - platform: device
+    device_id: !input pico_1
+    domain: lutron_caseta
+    type: press
+    subtype: 'off'
+    id: off_pressed
+
+#  - enabled: !input enabled_2
+#    platform: device
+#    device_id: !input pico_2
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'on'
+#    id: on_pressed
+#  - enabled: !input enabled_2
+#    platform: device
+#    device_id: !input pico_2
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'raise'
+#    id: up_pressed
+#  - enabled: !input enabled_2
+#    platform: device
+#    device_id: !input pico_2
+#    domain: lutron_caseta
+#    type: release
+#    subtype: 'raise'
+#    id: up_released
+#  - enabled: !input enabled_2
+#    platform: device
+#    device_id: !input pico_2
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'stop'
+#    id: stop_pressed
+#  - enabled: !input enabled_2
+#    platform: device
+#    device_id: !input pico_2
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'lower'
+#    id: down_pressed
+#  - enabled: !input enabled_2
+#    platform: device
+#    device_id: !input pico_2
+#    domain: lutron_caseta
+#    type: release
+#    subtype: 'lower'
+#    id: down_released
+#  - enabled: !input enabled_2
+#    platform: device
+#    device_id: !input pico_2
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'off'
+#    id: off_pressed
+#
+#  - enabled: !input enabled_3
+#    platform: device
+#    device_id: !input pico_3
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'on'
+#    id: on_pressed
+#  - enabled: !input enabled_3
+#    platform: device
+#    device_id: !input pico_3
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'raise'
+#    id: up_pressed
+#  - enabled: !input enabled_3
+#    platform: device
+#    device_id: !input pico_3
+#    domain: lutron_caseta
+#    type: release
+#    subtype: 'raise'
+#    id: up_released
+#  - enabled: !input enabled_3
+#    platform: device
+#    device_id: !input pico_3
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'stop'
+#    id: stop_pressed
+#  - enabled: !input enabled_3
+#    platform: device
+#    device_id: !input pico_3
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'lower'
+#    id: down_pressed
+#  - enabled: !input enabled_3
+#    platform: device
+#    device_id: !input pico_3
+#    domain: lutron_caseta
+#    type: release
+#    subtype: 'lower'
+#    id: down_released
+#  - enabled: !input enabled_3
+#    platform: device
+#    device_id: !input pico_3
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'off'
+#    id: off_pressed
+#
+#  - enabled: !input enabled_4
+#    platform: device
+#    device_id: !input pico_4
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'on'
+#    id: on_pressed
+#  - enabled: !input enabled_4
+#    platform: device
+#    device_id: !input pico_4
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'raise'
+#    id: up_pressed
+#  - enabled: !input enabled_4
+#    platform: device
+#    device_id: !input pico_4
+#    domain: lutron_caseta
+#    type: release
+#    subtype: 'raise'
+#    id: up_released
+#  - enabled: !input enabled_4
+#    platform: device
+#    device_id: !input pico_4
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'stop'
+#    id: stop_pressed
+#  - enabled: !input enabled_4
+#    platform: device
+#    device_id: !input pico_4
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'lower'
+#    id: down_pressed
+#  - enabled: !input enabled_4
+#    platform: device
+#    device_id: !input pico_4
+#    domain: lutron_caseta
+#    type: release
+#    subtype: 'lower'
+#    id: down_released
+#  - enabled: !input enabled_4
+#    platform: device
+#    device_id: !input pico_4
+#    domain: lutron_caseta
+#    type: press
+#    subtype: 'off'
+#    id: off_pressed
+
+variables:
+  step: !input step
+  speed: !input speed
+  middle_button_action: !input middle_button_action
+
+condition: []
+
+action:
+  - choose:
+    - conditions:
+        - condition: trigger
+          id: on_pressed
+      sequence:
+        - service: light.turn_on
+          data:
+            transition: !input transition_on
+            brightness_pct: 100
+          target:
+            entity_id: !input entity
+    - conditions:
+        - condition: trigger
+          id: up_pressed
+      sequence:
+        - repeat:
+            sequence:
+              - service: light.turn_on
+                data:
+                  brightness_step_pct: !input step
+                  transition: "{{ speed / 1000 }}"
+                target:
+                  entity_id: !input entity
+              - delay:
+                  milliseconds: !input speed
+            until:
+              - condition: state
+                entity_id: !input entity
+                attribute: brightness
+                state: "100"
+    - conditions:
+        - condition: trigger
+          id: up_released
+      sequence:
+        - delay:
+            milliseconds: 100
+    - conditions:
+        - condition: trigger
+          id: stop_pressed
+      sequence:
+        - choose:
+          - conditions: "{{ middle_button_action != none }}"
+            sequence: !input middle_button_action
+          default:
+            - service: light.turn_on
+              data:
+                transition: !input transition_on
+                brightness_pct: 80
+                kelvin: 2700
+              target:
+                entity_id: !input entity
+    - conditions:
+        - condition: trigger
+          id: down_pressed
+      sequence:
+        - repeat:
+            sequence:
+              - service: light.turn_on
+                data:
+                  brightness_step_pct: "{{ step * -1 }}"
+                  transition: "{{ speed / 1000 }}"
+                target:
+                  entity_id: !input entity
+              - delay:
+                  milliseconds: !input speed
+            until:
+              - condition: numeric_state
+                entity_id: !input entity
+                attribute: brightness
+                below: 1
+    - conditions:
+        - condition: trigger
+          id: down_released
+      sequence:
+        - delay:
+            milliseconds: 100
+    - conditions:
+        - condition: trigger
+          id: off_pressed
+      sequence:
+        - service: light.turn_off
+          data:
+            transition: !input transition_off
+          target:
+            entity_id: !input entity
+
+mode: restart
